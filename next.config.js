@@ -9,11 +9,14 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 const VERCEL_URL = `https://${process.env.VERCEL_URL}`
 
 /** @type {import('next').NextConfig} */
-console.log('allowing12341', [NEXT_PUBLIC_SERVER_URL, VERCEL_URL])
 const nextConfig = {
   images: {
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL, VERCEL_URL].map((item) => {
+      ...[
+        NEXT_PUBLIC_SERVER_URL,
+        VERCEL_URL,
+        'https://hkeh1wmtaqm4mc1e.public.blob.vercel-storage.com',
+      ].map((item) => {
         const url = new URL(item)
 
         return {
