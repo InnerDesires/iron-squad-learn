@@ -10,63 +10,66 @@ const BeforeDashboard: React.FC = () => {
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
+        <h4>Ласкаво просимо до вашої панелі керування!</h4>
       </Banner>
-      Here&apos;s what to do next:
+      Ось що робити далі:
       <ul className={`${baseClass}__instructions`}>
         <li>
           <SeedButton />
-          {' with a few pages, posts, and projects to jump-start your new site, then '}
+          {
+            ' з кількома сторінками, публікаціями та проєктами, щоб швидко запустити ваш сайт, потім '
+          }
           <a href="/" target="_blank">
-            visit your website
+            відвідати ваш вебсайт
           </a>
-          {' to see the results.'}
+          {' щоб побачити результати.'}
         </li>
         <li>
-          If you created this repo using Payload Cloud, head over to GitHub and clone it to your
-          local machine. It will be under the <i>GitHub Scope</i> that you selected when creating
-          this project.
+          Якщо ви створили цей репозиторій за допомогою Payload Cloud, перейдіть до GitHub і
+          клонюйте його на свій локальний комп’ютер. Він буде в межах <i>GitHub Scope</i>, який ви
+          обрали під час створення цього проєкту.
         </li>
         <li>
-          {'Modify your '}
+          {'Змініть свої '}
           <a
             href="https://payloadcms.com/docs/configuration/collections"
             rel="noopener noreferrer"
             target="_blank"
           >
-            collections
+            колекції
           </a>
-          {' and add more '}
+          {' і додайте більше '}
           <a
             href="https://payloadcms.com/docs/fields/overview"
             rel="noopener noreferrer"
             target="_blank"
           >
-            fields
+            полів
           </a>
-          {' as needed. If you are new to Payload, we also recommend you check out the '}
+          {' за потреби. Якщо ви новачок у Payload, також радимо переглянути розділ '}
           <a
             href="https://payloadcms.com/docs/getting-started/what-is-payload"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Getting Started
+            Початок роботи
           </a>
-          {' docs.'}
+          {' документації.'}
         </li>
         <li>
-          Commit and push your changes to the repository to trigger a redeployment of your project.
+          Зробіть коміт і відправте зміни до репозиторію, щоб запустити повторне розгортання вашого
+          проєкту.
         </li>
       </ul>
-      {'Pro Tip: This block is a '}
+      {'Порада: цей блок — це '}
       <a
         href="https://payloadcms.com/docs/custom-components/overview"
         rel="noopener noreferrer"
         target="_blank"
       >
-        custom component
+        кастомний компонент
       </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
+      , ви можете прибрати його будь-коли, оновивши ваш <strong>payload.config</strong>.
     </div>
   )
 }

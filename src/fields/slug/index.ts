@@ -15,6 +15,7 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
   const checkBoxField: CheckboxField = {
     name: 'slugLock',
     type: 'checkbox',
+    label: 'Замовити шлях URL',
     defaultValue: true,
     admin: {
       hidden: true,
@@ -26,9 +27,10 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
   // @ts-expect-error - ts mismatch Partial<TextField> with TextField
   const slugField: TextField = {
     name: 'slug',
+
     type: 'text',
     index: true,
-    label: 'Slug',
+    label: 'Шлях URL',
     ...(slugOverrides || {}),
     hooks: {
       // Kept this in for hook or API based updates
