@@ -14,7 +14,7 @@ export default function imageLoader({
   let directPath = url.pathname
 
   if (url.pathname.startsWith('/api/media/file')) {
-    let path = url.pathname.split('file')
+    const path = url.pathname.split('file')
     directPath = `media${path[1]}`
   }
 
