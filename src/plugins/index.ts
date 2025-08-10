@@ -28,6 +28,10 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
+      labels: {
+        singular: 'Переадресація',
+        plural: 'Переадресації',
+      },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -54,17 +58,33 @@ export const plugins: Plugin[] = [
   seoPlugin({
     generateTitle,
     generateURL,
+    interfaceName: 'SEO - пошук',
   }),
   formBuilderPlugin({
     fields: {
       payment: false,
     },
+    formSubmissionOverrides: {
+      labels: {
+        singular: 'Отримані форми',
+        plural: 'Отримані форми',
+      },
+    },
     formOverrides: {
+      admin: {
+        description:
+          'Це колекція створених форм для сайту. Ці форми використовуються для отримання даних від користувачів сайту.',
+      },
+      labels: {
+        singular: 'Форма',
+        plural: 'Форми',
+      },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {
             return {
               ...field,
+              label: 'Повідомлення після відправки',
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
                   return [
@@ -85,6 +105,14 @@ export const plugins: Plugin[] = [
     collections: ['posts'],
     beforeSync: beforeSyncWithSearch,
     searchOverrides: {
+      admin: {
+        description:
+          'Це колекція автоматично створених результатів пошуку. Ці результати використовуються глобальним пошуком сайту і будуть автоматично оновлюватися при створенні або оновленні документів в CMS.',
+      },
+      labels: {
+        singular: 'Результати пошуку',
+        plural: 'Результати пошуку',
+      },
       fields: ({ defaultFields }) => {
         return [...defaultFields, ...searchFields]
       },

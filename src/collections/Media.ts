@@ -22,14 +22,20 @@ export const Media: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
+  labels: {
+    singular: 'Медіа',
+    plural: 'Медіа',
+  },
   fields: [
     {
       name: 'alt',
+      label: 'Текст для доступності',
       type: 'text',
       //required: true,
     },
     {
       name: 'caption',
+      label: 'Підпис до зображення',
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {

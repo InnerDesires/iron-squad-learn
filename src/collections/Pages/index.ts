@@ -57,10 +57,15 @@ export const Pages: CollectionConfig<'pages'> = {
       }),
     useAsTitle: 'title',
   },
+  labels: {
+    singular: 'Сторінка',
+    plural: 'Сторінки',
+  },
   fields: [
     {
       name: 'title',
       type: 'text',
+      label: 'Назва сторінки',
       required: true,
     },
     {
@@ -68,7 +73,7 @@ export const Pages: CollectionConfig<'pages'> = {
       tabs: [
         {
           fields: [hero],
-          label: 'Hero',
+          label: 'Герой',
         },
         {
           fields: [
@@ -82,11 +87,11 @@ export const Pages: CollectionConfig<'pages'> = {
               },
             },
           ],
-          label: 'Content',
+          label: 'Вміст',
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: 'SEO - пошук',
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -115,6 +120,7 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     {
       name: 'publishedAt',
+      label: 'Дата публікації',
       type: 'date',
       admin: {
         position: 'sidebar',

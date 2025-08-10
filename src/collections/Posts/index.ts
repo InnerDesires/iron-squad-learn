@@ -68,10 +68,15 @@ export const Posts: CollectionConfig<'posts'> = {
       }),
     useAsTitle: 'title',
   },
+  labels: {
+    singular: 'Публікація',
+    plural: 'Публікації',
+  },
   fields: [
     {
       name: 'title',
       type: 'text',
+      label: 'Заголовок',
       required: true,
     },
     {
@@ -103,7 +108,7 @@ export const Posts: CollectionConfig<'posts'> = {
               required: true,
             },
           ],
-          label: 'Content',
+          label: 'Вміст',
         },
         {
           fields: [
@@ -133,11 +138,11 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'categories',
             },
           ],
-          label: 'Meta',
+          label: 'Метадані',
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: 'SEO - пошук',
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -167,6 +172,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'publishedAt',
       type: 'date',
+      label: 'Дата публікації',
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
@@ -187,6 +193,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'authors',
       type: 'relationship',
+      label: 'Автори',
       admin: {
         position: 'sidebar',
       },
@@ -198,6 +205,7 @@ export const Posts: CollectionConfig<'posts'> = {
     // GraphQL will also not return mutated user data that differs from the underlying schema
     {
       name: 'populatedAuthors',
+      label: 'Автори',
       type: 'array',
       access: {
         update: () => false,

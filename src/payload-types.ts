@@ -108,7 +108,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
   };
-  locale: null;
+  locale: 'uk' | 'en';
   user: User & {
     collection: 'users';
   };
@@ -182,7 +182,7 @@ export interface Page {
             url?: string | null;
             label: string;
             /**
-             * Choose how the link should be rendered.
+             * Виберіть, як повинно бути відображене посилання.
              */
             appearance?: ('default' | 'outline') | null;
           };
@@ -429,7 +429,7 @@ export interface CallToActionBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * Виберіть, як повинно бути відображене посилання.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -479,7 +479,7 @@ export interface ContentBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * Виберіть, як повинно бути відображене посилання.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -561,6 +561,8 @@ export interface FormBlock {
   blockType: 'formBlock';
 }
 /**
+ * Це колекція створених форм для сайту. Ці форми використовуються для отримання даних від користувачів сайту.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -778,7 +780,7 @@ export interface FormSubmission {
   createdAt: string;
 }
 /**
- * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
+ * Це колекція автоматично створених результатів пошуку. Ці результати використовуються глобальним пошуком сайту і будуть автоматично оновлюватися при створенні або оновленні документів в CMS.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search".

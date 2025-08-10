@@ -5,6 +5,10 @@ import { revalidateHeader } from './hooks/revalidateHeader'
 
 export const Header: GlobalConfig = {
   slug: 'header',
+  label: {
+    singular: 'Хедер - блок навігації',
+    plural: 'Хедери - блоки навігації',
+  },
   access: {
     read: () => true,
   },

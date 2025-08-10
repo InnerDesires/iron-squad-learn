@@ -11,6 +11,10 @@ export const Users: CollectionConfig = {
     read: authenticated,
     update: authenticated,
   },
+  labels: {
+    singular: 'Користувач',
+    plural: 'Користувачі',
+  },
   admin: {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
@@ -20,6 +24,7 @@ export const Users: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
+      label: 'Імʼя',
     },
   ],
   timestamps: true,

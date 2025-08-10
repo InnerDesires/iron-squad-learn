@@ -12,6 +12,10 @@ export const Categories: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
+  labels: {
+    singular: 'Категорія',
+    plural: 'Категорії',
+  },
   admin: {
     useAsTitle: 'title',
   },
@@ -19,6 +23,7 @@ export const Categories: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      label: 'Назва категорії',
       required: true,
     },
     ...slugField(),

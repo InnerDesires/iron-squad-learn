@@ -5,6 +5,10 @@ import { revalidateFooter } from './hooks/revalidateFooter'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
+  label: {
+    singular: 'Футер - нижній колонтитул сайту',
+    plural: 'Футери - нижні колонтитули сайту',
+  },
   access: {
     read: () => true,
   },
