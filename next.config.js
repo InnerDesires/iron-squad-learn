@@ -19,6 +19,8 @@ const nextConfig = {
         }
       }),
     ],
+    loader: 'custom',
+    loaderFile: './src/lib/imageLoader.ts',
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
