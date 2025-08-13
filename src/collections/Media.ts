@@ -24,6 +24,7 @@ export const Media: CollectionConfig = {
   },
   labels: {
     singular: 'Медіа',
+
     plural: 'Медіа',
   },
   fields: [
@@ -31,11 +32,13 @@ export const Media: CollectionConfig = {
       name: 'alt',
       label: 'Текст для доступності',
       type: 'text',
+      localized: true,
       //required: true,
     },
     {
       name: 'caption',
       label: 'Підпис до зображення',
+      localized: true,
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {

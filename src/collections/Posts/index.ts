@@ -78,6 +78,7 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'text',
       label: 'Заголовок',
       required: true,
+      localized: true,
     },
     {
       type: 'tabs',
@@ -106,6 +107,7 @@ export const Posts: CollectionConfig<'posts'> = {
               }),
               label: false,
               required: true,
+              localized: true,
             },
           ],
           label: 'Вміст',

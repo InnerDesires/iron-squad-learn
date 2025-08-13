@@ -17,22 +17,22 @@ export const hero: Field = {
       name: 'type',
       type: 'select',
       defaultValue: 'lowImpact',
-      label: 'Type',
+      label: 'Тип першого блоку',
       options: [
         {
-          label: 'None',
+          label: 'Немає',
           value: 'none',
         },
         {
-          label: 'High Impact',
+          label: 'Високий',
           value: 'highImpact',
         },
         {
-          label: 'Medium Impact',
+          label: 'Середній',
           value: 'mediumImpact',
         },
         {
-          label: 'Low Impact',
+          label: 'Низький',
           value: 'lowImpact',
         },
       ],
@@ -41,6 +41,7 @@ export const hero: Field = {
     {
       name: 'richText',
       type: 'richText',
+      localized: true,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [
@@ -51,7 +52,7 @@ export const hero: Field = {
           ]
         },
       }),
-      label: false,
+      label: 'Вміст',
     },
     linkGroup({
       overrides: {

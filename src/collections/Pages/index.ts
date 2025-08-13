@@ -67,18 +67,22 @@ export const Pages: CollectionConfig<'pages'> = {
       type: 'text',
       label: 'Назва сторінки',
       required: true,
+      localized: true,
     },
     {
       type: 'tabs',
       tabs: [
         {
           fields: [hero],
-          label: 'Герой',
+          label: 'Перший блок',
         },
         {
           fields: [
             {
               name: 'layout',
+
+              label: 'Вміст',
+              localized: true,
               type: 'blocks',
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
               required: true,
@@ -87,6 +91,7 @@ export const Pages: CollectionConfig<'pages'> = {
               },
             },
           ],
+
           label: 'Вміст',
         },
         {

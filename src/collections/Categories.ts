@@ -25,6 +25,7 @@ export const Categories: CollectionConfig = {
       type: 'text',
       label: 'Назва категорії',
       required: true,
+      localized: true,
     },
     ...slugField(),
   ],
