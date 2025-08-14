@@ -70,6 +70,12 @@ export const Pages: CollectionConfig<'pages'> = {
       localized: true,
     },
     {
+      name: 'description',
+      type: 'text',
+      label: 'Опис сторінки',
+      localized: true,
+    },
+    {
       type: 'tabs',
       tabs: [
         {

@@ -148,6 +148,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
+  description?: string | null;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     richText?: {
@@ -997,6 +998,7 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   hero?:
     | T
     | {
