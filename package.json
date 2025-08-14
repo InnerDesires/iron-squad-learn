@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
-    "ci": "[ \"$SKIP_MIGRATIONS\" = \"true\" ] && pnpm build || (payload migrate --yes && pnpm build)",
+    "ci": "cross-env NODE_OPTIONS=--no-deprecation payload migrate && pnpm build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
@@ -20,7 +20,17 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test --config=playwright.config.ts",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "db:branch": "./scripts/neon-branch.sh",
+    "db:branch:setup": "./scripts/neon-branch.sh setup",
+    "db:branch:create": "./scripts/neon-branch.sh create",
+    "db:branch:reset": "./scripts/neon-branch.sh reset",
+    "db:branch:list": "./scripts/neon-branch.sh list",
+    "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create",
+    "migrate:run": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "migrate:status": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:status",
+    "migrate:test": "./scripts/test-migration.sh",
+    "migrate:test:simple": "pnpm migrate:run && echo '✅ Migration test successful'"
   },
   "dependencies": {
     "@payloadcms/admin-bar": "3.49.0",

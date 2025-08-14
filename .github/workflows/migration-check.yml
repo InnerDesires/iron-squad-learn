@@ -1,0 +1,115 @@
+name: Migration Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'src/migrations/**'
+      - 'src/collections/**'
+      - 'src/payload.config.ts'
+
+jobs:
+  migration-check:
+    name: Validate Database Migrations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for new migrations
+        id: check-migrations
+        run: |
+          echo "Checking for new migration files..."
+          NEW_MIGRATIONS=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E "src/migrations/.*\.(ts|js)$" | grep -v index.ts || echo "")
+
+          if [ -z "$NEW_MIGRATIONS" ]; then
+            echo "No new migration files found."
+            echo "has_migrations=false" >> $GITHUB_OUTPUT
+          else
+            echo "New migration files detected:"
+            echo "$NEW_MIGRATIONS"
+            echo "has_migrations=true" >> $GITHUB_OUTPUT
+            echo "migration_files<<EOF" >> $GITHUB_OUTPUT
+            echo "$NEW_MIGRATIONS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate migration syntax
+        if: steps.check-migrations.outputs.has_migrations == 'true'
+        run: |
+          echo "Validating migration file syntax..."
+          npx tsc --noEmit --skipLibCheck
+          echo "✅ Migration syntax validation passed"
+
+      - name: Check migration naming convention
+        if: steps.check-migrations.outputs.has_migrations == 'true'
+        run: |
+          echo "Checking migration naming convention..."
+          MIGRATION_FILES="${{ steps.check-migrations.outputs.migration_files }}"
+
+          for file in $MIGRATION_FILES; do
+            filename=$(basename "$file")
+            if [[ ! "$filename" =~ ^[0-9]{8}_[0-9]{6}\.(ts|js)$ ]]; then
+              echo "❌ Migration file '$filename' doesn't follow naming convention: YYYYMMDD_HHMMSS.ts"
+              exit 1
+            fi
+            echo "✅ $filename follows naming convention"
+          done
+
+      - name: Validate migration structure
+        if: steps.check-migrations.outputs.has_migrations == 'true'
+        run: |
+          echo "Validating migration file structure..."
+          MIGRATION_FILES="${{ steps.check-migrations.outputs.migration_files }}"
+
+          for file in $MIGRATION_FILES; do
+            echo "Checking $file..."
+            if ! grep -q "export.*up.*:" "$file"; then
+              echo "❌ Migration file '$file' missing 'up' function export"
+              exit 1
+            fi
+            if ! grep -q "export.*down.*:" "$file"; then
+              echo "❌ Migration file '$file' missing 'down' function export"
+              exit 1
+            fi
+            echo "✅ $file has required structure"
+          done
+
+      - name: Post migration check summary
+        if: steps.check-migrations.outputs.has_migrations == 'true'
+        run: |
+          echo "🎉 Migration Check Summary:"
+          echo "✅ Syntax validation passed"
+          echo "✅ Naming convention validated"
+          echo "✅ Migration structure validated"
+          echo ""
+          echo "📋 New migration files:"
+          echo "${{ steps.check-migrations.outputs.migration_files }}"
+          echo ""
+          echo "💡 Remember:"
+          echo "   - Test migrations on your Neon dev branch first"
+          echo "   - Use 'pnpm db:branch:reset' to restore if needed"
+          echo "   - Migrations will be tested on preview deployment"
+
+      - name: No migrations detected
+        if: steps.check-migrations.outputs.has_migrations == 'false'
+        run: |
+          echo "ℹ️  No new migration files detected in this PR."
+          echo "This workflow only runs when migration files are added or modified."
