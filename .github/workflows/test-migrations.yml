@@ -1,0 +1,90 @@
+name: Test Migrations on Preview
+
+on:
+  pull_request:
+    paths:
+      - 'src/migrations/**'
+      - 'src/payload.config.ts'
+      - 'src/collections/**'
+      - 'src/globals/**'
+
+jobs:
+  test-migrations:
+    runs-on: ubuntu-latest
+
+    # Only run if there are migration files changed
+    if: contains(github.event.pull_request.changed_files, 'src/migrations/') || contains(github.event.pull_request.changed_files, 'payload.config.ts')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: '10.13.1'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for new migrations
+        id: check-migrations
+        run: |
+          # Get list of migration files in this PR
+          MIGRATIONS=$(git diff --name-only origin/main...HEAD | grep 'src/migrations/' | wc -l)
+          echo "migrations_count=$MIGRATIONS" >> $GITHUB_OUTPUT
+
+          if [ $MIGRATIONS -gt 0 ]; then
+            echo "🔍 Found $MIGRATIONS new migration file(s)"
+            git diff --name-only origin/main...HEAD | grep 'src/migrations/'
+          fi
+
+      - name: Validate migration syntax
+        if: steps.check-migrations.outputs.migrations_count > 0
+        run: |
+          echo "🔍 Validating migration syntax..."
+          # Check if migration files are valid TypeScript
+          pnpm tsc --noEmit
+
+      - name: Comment on PR
+        if: steps.check-migrations.outputs.migrations_count > 0
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrations = ${{ steps.check-migrations.outputs.migrations_count }};
+
+            const comment = `## 🔄 Migration Detection
+
+            Found **${migrations}** new migration file(s) in this PR.
+
+            ### ✅ Next Steps:
+            1. **Merge this PR** to test migrations on preview environment
+            2. **Check preview deployment** to ensure migrations run successfully
+            3. **Merge to main** only after successful preview testing
+
+            ### 🧪 Local Testing:
+            \`\`\`bash
+            # Test locally with preview data
+            pnpm db:sync preview
+            pnpm migrate:test
+            \`\`\`
+
+            > ⚠️ **Important**: Preview environment will run these migrations automatically after merge.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Migration syntax check passed
+        if: steps.check-migrations.outputs.migrations_count > 0
+        run: |
+          echo "✅ Migration syntax validation passed"
+          echo "🚀 Ready for preview testing"
