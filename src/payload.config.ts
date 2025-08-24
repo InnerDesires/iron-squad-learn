@@ -39,6 +39,7 @@ export default buildConfig({
       },
     ],
     defaultLocale: 'uk',
+    fallback: true,
   },
   admin: {
     components: {

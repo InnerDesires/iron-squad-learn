@@ -13,10 +13,8 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Load environment variables from .env files
-if [ -f .env.development.local ]; then
-    export $(cat .env.development.local | grep -v '^#' | xargs)
-elif [ -f .env.local ]; then
-    export $(cat .env.local | grep -v '^#' | xargs)
+if [ -f .env ]; then
+    export $(cat .env | grep -v '^#' | xargs)
 fi
 
 # Check if neonctl is installed
@@ -38,7 +36,7 @@ fi
 # Check for required environment variable
 if [ -z "$NEON_PROJECT_ID" ]; then
     echo -e "${RED}❌ NEON_PROJECT_ID environment variable is required.${NC}"
-    echo -e "${YELLOW}Please add it to your .env.development.local file:${NC}"
+    echo -e "${YELLOW}Please add it to your .env file:${NC}"
     echo -e "${BLUE}NEON_PROJECT_ID=\"your-project-id\"${NC}"
     echo -e "${YELLOW}To find your project ID, run:${NC}"
     echo -e "${BLUE}neonctl projects list${NC}"
