@@ -23,7 +23,6 @@ import localization from './i18n/localization'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-console.log('process.env.POSTGRES_URL', process.env.POSTGRES_URL)
 export default buildConfig({
   i18n: {
     fallbackLanguage: 'uk',
