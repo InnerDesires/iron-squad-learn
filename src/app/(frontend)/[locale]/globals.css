@@ -56,7 +56,7 @@
     --card: 0 0% 4%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 222.2 84% 4.9%;/*  */
     --popover-foreground: 210 40% 98%;
 
     --primary: 210 40% 98%;
@@ -89,15 +89,24 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    @apply text-foreground min-h-[100vh] flex flex-col;
   }
 }
 
 html {
-  opacity: 0;
+  background: rgba(239,243,255,255);
 }
 
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
+@layer components {
+  .main-content-card {
+    @apply bg-background/95  rounded-3xl shadow-xl;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50;
+  }
+
+  [data-theme='dark'] .gradient-bg {
+    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900;
+  }
 }

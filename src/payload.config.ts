@@ -19,6 +19,8 @@ import { getServerSideURL } from './utilities/getURL'
 import { uk } from '@payloadcms/translations/languages/uk'
 import { en } from '@payloadcms/translations/languages/en'
 
+import localization from './i18n/localization'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -27,20 +29,7 @@ export default buildConfig({
     fallbackLanguage: 'uk',
     supportedLanguages: { uk, en },
   },
-  localization: {
-    locales: [
-      {
-        code: 'uk',
-        label: '🇺🇦 Українська',
-      },
-      {
-        code: 'en',
-        label: '🇬🇧 English',
-      },
-    ],
-    defaultLocale: 'uk',
-    fallback: true,
-  },
+  localization,
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
