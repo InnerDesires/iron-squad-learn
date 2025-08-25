@@ -8,5 +8,9 @@
   "PostHero": {
     "author": "Автор",
     "datePublished": "Дата публікації"
+  },
+  "Search": {
+    "search": "Пошук",
+    "submit": "Відправити"
   }
 }
