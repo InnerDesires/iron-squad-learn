@@ -3,8 +3,9 @@ import type { Metadata } from 'next'
 import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import { draftMode } from 'next/headers'
+import { setRequestLocale } from 'next-intl/server'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 
@@ -40,19 +41,21 @@ export async function generateStaticParams() {
 type Args = {
   params: Promise<{
     slug?: string
+    locale: TypedLocale
   }>
 }
 
 export default async function Post({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = '' } = await paramsPromise
+  const { slug = '', locale } = await paramsPromise
+  setRequestLocale(locale)
   const url = '/posts/' + slug
-  const post = await queryPostBySlug({ slug })
+  const post = await queryPost({ slug, locale })
 
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
+    <article>
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -62,7 +65,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <PostHero post={post} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
+      <div className="flex flex-col items-center gap-4 p-6 md:p-8">
         <div className="container">
           <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
@@ -78,13 +81,13 @@ export default async function Post({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = '' } = await paramsPromise
-  const post = await queryPostBySlug({ slug })
+  const { slug = '', locale } = await paramsPromise
+  const post = await queryPost({ slug, locale })
 
   return generateMeta({ doc: post })
 }
 
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryPost = cache(async ({ slug, locale }: { slug: string; locale: TypedLocale }) => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
@@ -92,6 +95,7 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
   const result = await payload.find({
     collection: 'posts',
     draft,
+    locale,
     limit: 1,
     overrideAccess: draft,
     pagination: false,

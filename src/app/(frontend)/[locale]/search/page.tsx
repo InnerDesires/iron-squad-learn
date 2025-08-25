@@ -2,19 +2,28 @@ import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
+import { setRequestLocale } from 'next-intl/server'
 import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
 
 type Args = {
+  params: Promise<{
+    locale: TypedLocale
+  }>
   searchParams: Promise<{
     q: string
   }>
 }
-export default async function Page({ searchParams: searchParamsPromise }: Args) {
+export default async function Page({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args) {
+  const { locale } = await paramsPromise
   const { q: query } = await searchParamsPromise
+  setRequestLocale(locale)
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
@@ -60,7 +69,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="p-6 md:p-8">
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">

@@ -6,7 +6,7 @@ node_modules
 .env.*
 .next
 .vercel
-
+.playwright-mcp
 # Payload default media upload directory
 public/media/
 
