@@ -8,5 +8,9 @@
   "PostHero": {
     "author": "Author",
     "datePublished": "Date Published"
+  },
+  "Search": {
+    "search": "Search",
+    "submit": "Submit"
   }
 }

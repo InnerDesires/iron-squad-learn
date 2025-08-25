@@ -8,7 +8,7 @@ import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
-
+import { getTranslations } from 'next-intl/server'
 type Args = {
   params: Promise<{
     locale: TypedLocale
@@ -24,6 +24,7 @@ export default async function Page({
   const { locale } = await paramsPromise
   const { q: query } = await searchParamsPromise
   setRequestLocale(locale)
+  const t = await getTranslations('Search')
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
@@ -73,7 +74,7 @@ export default async function Page({
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
+          <h1 className="mb-8 lg:mb-16">{t('search')}</h1>
 
           <div className="max-w-[50rem] mx-auto">
             <Search />
