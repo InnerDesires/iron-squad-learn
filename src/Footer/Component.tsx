@@ -30,6 +30,7 @@ export async function Footer() {
               width={292}
               height={32}
               unoptimized
+              className="invert"
               style={{ width: '144px', height: '16px' }}
             />
           </div>

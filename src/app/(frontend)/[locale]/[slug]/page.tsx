@@ -111,6 +111,5 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: T
       },
     },
   })
-
   return result.docs?.[0] || null
 })
