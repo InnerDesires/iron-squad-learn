@@ -2,10 +2,10 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postg
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   DROP INDEX "header_rels_pages_id_idx";
-  DROP INDEX "header_rels_posts_id_idx";
-  DROP INDEX "footer_rels_pages_id_idx";
-  DROP INDEX "footer_rels_posts_id_idx";
+   DROP INDEX IF EXISTS "header_rels_pages_id_idx";
+  DROP INDEX IF EXISTS "header_rels_posts_id_idx";
+  DROP INDEX IF EXISTS "footer_rels_pages_id_idx";
+  DROP INDEX IF EXISTS "footer_rels_posts_id_idx";
   ALTER TABLE "header_nav_items" ADD COLUMN "_locale" "_locales" NOT NULL;
   ALTER TABLE "header_rels" ADD COLUMN "locale" "_locales";
   ALTER TABLE "footer_nav_items" ADD COLUMN "_locale" "_locales" NOT NULL;
