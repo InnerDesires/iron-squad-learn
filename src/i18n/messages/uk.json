@@ -4,5 +4,9 @@
   },
   "Posts": {
     "title": "Пости"
+  },
+  "PostHero": {
+    "author": "Автор",
+    "datePublished": "Дата публікації"
   }
 }

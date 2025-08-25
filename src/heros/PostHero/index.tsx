@@ -5,18 +5,19 @@ import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
+import { useTranslations } from 'next-intl'
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
   const { categories, heroImage, populatedAuthors, publishedAt, title } = post
-
+  const t = useTranslations('PostHero')
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
 
   return (
-    <div className="relative flex items-end">
-      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
+    <div className="relative flex items-end min-h-[50vh] text-primary overflow-hidden rounded-t-3xl">
+      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] pb-8">
         <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
           <div className="uppercase text-sm mb-6">
             {categories?.map((category, index) => {
@@ -46,7 +47,7 @@ export const PostHero: React.FC<{
             {hasAuthors && (
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm">Author</p>
+                  <p className="text-sm">{t('author')}</p>
 
                   <p>{formatAuthors(populatedAuthors)}</p>
                 </div>
@@ -54,7 +55,7 @@ export const PostHero: React.FC<{
             )}
             {publishedAt && (
               <div className="flex flex-col gap-1">
-                <p className="text-sm">Date Published</p>
+                <p className="text-sm">{t('datePublished')}</p>
 
                 <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
               </div>
@@ -62,11 +63,22 @@ export const PostHero: React.FC<{
           </div>
         </div>
       </div>
-      <div className="min-h-[80vh] select-none">
+      <div className="absolute inset-0 select-none">
         {heroImage && typeof heroImage !== 'string' && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
+          <Media
+            className="relative h-full w-full"
+            fill
+            priority
+            imgClassName="object-cover brightness-100"
+            resource={heroImage}
+          />
         )}
-        <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
+        <div
+          className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2"
+          style={{
+            background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 00%, rgba(255, 255, 255, 1) 85%)',
+          }}
+        />
       </div>
     </div>
   )

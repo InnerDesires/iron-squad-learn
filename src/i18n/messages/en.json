@@ -4,5 +4,9 @@
   },
   "Posts": {
     "title": "Posts"
+  },
+  "PostHero": {
+    "author": "Author",
+    "datePublished": "Date Published"
   }
 }
